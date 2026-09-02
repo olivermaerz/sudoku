@@ -1,0 +1,4 @@
+# Sudoku Solver
+# Tested with Python 3.10
+
+pygame

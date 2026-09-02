@@ -1,0 +1,15 @@
+# Python stuff
+venv/
+__pycache__/
+
+# Mac stuff
+.DS_Store
+
+# Project specific stuff
+rubric.md
+project_intro.md
+original_readme.md
+*.zip
+
+# Environments
+.env
