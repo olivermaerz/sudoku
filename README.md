@@ -4,4 +4,6 @@ Setup with [uv](https://docs.astral.sh/uv/): `uv venv && source venv/bin/activat
 
 Run the code with `python solution.py` (uses pygame for visualization). Run local tests with `python -m unittest -v`.
 
-Starter code is from Udacity (MIT).
+Starter code is from Udacity (MIT License).
+
+

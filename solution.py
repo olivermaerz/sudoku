@@ -81,6 +81,7 @@ def naked_twins(values):
     Pseudocode for this algorithm on github:
     https://github.com/udacity/artificial-intelligence/blob/master/Projects/1_Sudoku/pseudocode.md
     """
+    out = values.copy()  # copy so we don't mutate values
     for dict_element in boxes:
         # First find boxes with exactly two values
         if (len(values[dict_element]) == 2):
@@ -94,21 +95,21 @@ def naked_twins(values):
                     if get_row(dict_element) == get_row(peer):
                         for row_unit in row_units[get_row(dict_element)]:
                             if (len(values[row_unit]) > 1) and (values[row_unit] != two_digits):
-                                values = assign_value(values, row_unit, values[row_unit].replace(two_digits[0],''))
-                                values = assign_value(values, row_unit, values[row_unit].replace(two_digits[1],''))
+                                out = assign_value(out, row_unit, out[row_unit].replace(two_digits[0],''))
+                                out = assign_value(out, row_unit, out[row_unit].replace(two_digits[1],''))
                     # ... if it was not in the same row then check if it is in the same column
                     elif get_column(dict_element) == get_column(peer):
                         for column_unit in column_units[get_column(dict_element)]:
                             if (len(values[column_unit]) > 1) and (values[column_unit] != two_digits):
-                                values = assign_value(values, column_unit, values[column_unit].replace(two_digits[0],''))
-                                values = assign_value(values, column_unit, values[column_unit].replace(two_digits[1],''))
+                                out = assign_value(out, column_unit, out[column_unit].replace(two_digits[0],''))
+                                out = assign_value(out, column_unit, out[column_unit].replace(two_digits[1],''))
                     # and finally check if it is the same square
                     if get_square(dict_element) == get_square(peer):
                         for square_unit in square_units[get_square(dict_element)]:
                             if (len(values[square_unit]) > 1) and (values[square_unit] != two_digits):
-                                values = assign_value(values, square_unit, values[square_unit].replace(two_digits[0],''))
-                                values = assign_value(values, square_unit, values[square_unit].replace(two_digits[1],''))
-    return values
+                                out = assign_value(out, square_unit, out[square_unit].replace(two_digits[0],''))
+                                out = assign_value(out, square_unit, out[square_unit].replace(two_digits[1],''))
+    return out
 
 
 def eliminate(values):
@@ -127,7 +128,6 @@ def eliminate(values):
     dict
         The values dictionary with the assigned values eliminated from peers
     """
-    i = 0
     for dict_element in values.keys():
         if len(values[dict_element]) <= 1:
             # element has just one digit
@@ -164,17 +164,6 @@ def only_choice(values):
                 values = assign_value(values, dplaces[0], digit)
     return values
 
-    for unit in unitlist:
-        for digit in '123456789':
-            for box in unit:
-                if digit in values[box]:
-                    dplaces = digit
-
-            if len(dplaces) == 1:
-                # values[dplaces[0]] = digit
-                values = assign_value(values, dplaces[0], digit)
-    return values
-
 
 def reduce_puzzle(values):
     """Reduce a Sudoku puzzle by repeatedly applying all constraint strategies
@@ -195,6 +184,8 @@ def reduce_puzzle(values):
         solved_values_before = len([box for box in values.keys() if len(values[box]) == 1])
         values = eliminate(values)
         values = only_choice(values)
+        # call the naked twins strategy 
+        values = naked_twins(values)
         solved_values_after = len([box for box in values.keys() if len(values[box]) == 1])
         stalled = solved_values_before == solved_values_after
         if len([box for box in values.keys() if len(values[box]) == 0]):
