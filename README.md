@@ -6,4 +6,6 @@ Run the code with `python solution.py` (uses pygame for visualization). Run loca
 
 Starter code is from Udacity (MIT License).
 
+If you sign up for Udacity, this is a [referral link](https://udacity.referralrock.com/l/OLIVERWOLF62/). Help out a poor AI student :)
+
 
